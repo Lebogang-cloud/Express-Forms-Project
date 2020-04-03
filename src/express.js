@@ -1,25 +1,23 @@
 const express = require('express');
 const path = require("path");
 
-const bodyParser = require("body-parser");
 const app = express();
 const {addNewVisitor, createTable} = require("./db");
 
-app.use(express.json());
 app.use(express.urlencoded({extended: true}));
 
-app.use('/new_visitor', express.static('public'));
+
 
 app.set('view engine', 'pug')
 app.get('/', function (req, res) {
    res.render('index')
  })
 
-app.get('/new_visitor', (req, res) => {
+app.get('/', (req, res) => {
    res.sendFile(path.join(__dirname + "/index.html" ));
 });
 
-app.post('/new_visitor', async (req, res)=> {
+app.post('/', async (req, res)=> {
 
   let visitorname=req.body.vname;
   let assistedby=req.body.aname;
@@ -28,6 +26,7 @@ app.post('/new_visitor', async (req, res)=> {
   let time=req.body.time;
   let comments=req.body.comments;
 
+  // Returning visitor
   createTable();
    const visitor =await addNewVisitor(visitorname,assistedby,age,date,time,comments);
   
@@ -42,7 +41,7 @@ app.post('/new_visitor', async (req, res)=> {
       });
 })
 
-const server = app.listen(8081, function () {
+const server = app.listen(8080, function () {
    const host = server.address().address
    const port = server.address().port
    

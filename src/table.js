@@ -27,10 +27,10 @@ const createTable = async () => {
   }
 };
 
-const addNewVisitor = async (name, assistant, age, date, time, comments) => {
+const addNewVisitor = async (name, assistedby, age, date, time, comments) => {
   const sql =
     "INSERT INTO visitors(visitor_name,assistant,visitor_age,date_of_visit,time_of_visit,comments) VALUES ($1, $2, $3, $4, $5, $6) RETURNING *";
-  const values = [name, assistant, age, date, time, comments];
+  const values = [name, assistedby, age, date, time, comments];
   try {
     let query = await client.query(sql, values);
     return query.rows;
